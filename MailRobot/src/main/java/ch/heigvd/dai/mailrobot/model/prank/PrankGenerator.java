@@ -48,7 +48,7 @@ public class PrankGenerator {
     public List<Prank> generatePranks() {
         List<Prank> pranks = new ArrayList<>();
         List<Group> groups = createGroups();
-        List<String> messages = cm.getMessages();
+        List<Message> messages = cm.getMessages();
 
         for (Group group : groups) {
             Prank prank = new Prank(group, messages.get(random.nextInt(messages.size())));

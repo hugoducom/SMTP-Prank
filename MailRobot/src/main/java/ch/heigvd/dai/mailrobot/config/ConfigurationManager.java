@@ -6,31 +6,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import ch.heigvd.dai.mailrobot.model.mail.MailChecker;
+import ch.heigvd.dai.mailrobot.model.mail.Message;
 import ch.heigvd.dai.mailrobot.model.mail.Person;
 
 public class ConfigurationManager {
     private String smtpServerAddress;
     private int smtpServerPort;
     private final List<Person> victims;
-    private final List<String> messages;
+    private final List<Message> messages;
     private int numberOfGroups;
     public static final int MIN_SIZE_PER_GROUP = 3;
 
     public ConfigurationManager() throws Exception {
-        //System.out.println(System.getProperty("user.dir"));
-        this.victims = loadAddresses("/home/alexis/Desktop/SMTP-Prank/MailRobot/config/victims.utf8");
-        this.messages = loadMessages("/home/alexis/Desktop/SMTP-Prank/MailRobot/config/messages.utf8");
-        loadProperties("/home/alexis/Desktop/SMTP-Prank/MailRobot/config/config.properties");
+        this.victims = loadAddresses("./MailRobot/config/victims.utf8");
+        this.messages = loadMessages("./MailRobot/config/messages.utf8");
+        loadProperties("./MailRobot/config/config.properties");
     }
 
     public List<Person> getVictims() {
         return victims;
     }
 
-    public List<String> getMessages() {
+    public List<Message> getMessages() {
         return messages;
     }
-
     public String getSmtpServerAddress() {
         return smtpServerAddress;
     }
@@ -55,27 +55,33 @@ public class ConfigurationManager {
         numberOfGroups = Integer.parseInt(prop.getProperty("numberOfGroups"));
     }
 
-    private List<String> loadMessages(String file) throws IOException {
-        List<String> res = new ArrayList<>();
+    private List<Message> loadMessages(String file) throws IOException {
+        List<Message> res = new ArrayList<>();
+        String line = null;
+        String subject = null;
+        StringBuilder body = new StringBuilder();
+
         try (FileInputStream fs = new FileInputStream(file)) {
             InputStreamReader is = new InputStreamReader(fs, StandardCharsets.UTF_8);
             try (BufferedReader reader = new BufferedReader(is)) {
-                String line = reader.readLine();
-                while (line != null) {
-                    // Create the mail
-                    StringBuilder msg = new StringBuilder();
-                    while (line != null && (!line.equals("---"))) {
-                        msg.append(line);
-                        msg.append("\r\n");
-                        line = reader.readLine();
-                    }
-                    // Add the mail to the result
-                    res.add(msg.toString());
-                    line = reader.readLine();
-                }
 
+                while ((line = reader.readLine()) != null) {
+                    if (line.startsWith("Subject:")) {
+                        // 9 étant la case du string à laquelle commence le message
+                        subject = line.substring(9);
+                    } else if (line.equals("")) {
+                        continue;
+                    } else if(!line.equals("---")) {
+                        body.append(line).append("\n");
+                    }
+                    else {
+                        res.add(new Message(subject, body.toString()));
+                        body.setLength(0);
+                    }
+                }
             }
         }
+        checkNumberOfMessages(res);
         return res;
     }
 
@@ -86,13 +92,31 @@ public class ConfigurationManager {
             try (BufferedReader reader = new BufferedReader(is)) {
                 String address = reader.readLine();
                 while (address != null) {
-                    res.add(new Person(address));
-                    address = reader.readLine();
+                    if(addressCheck(address)) {
+                        res.add(new Person(address));
+                        address = reader.readLine();
+                    }
                 }
             }
         }
         return res;
     }
 
+    private boolean addressCheck(String address) {
+
+        MailChecker mc = new MailChecker();
+        if (!mc.checkMail(address)) {
+            throw new RuntimeException("Invalid email");
+        }
+
+        return true;
+    }
+
+    private boolean checkNumberOfMessages(List<Message> m) {
+        if(m.size() == 0) {
+            throw new RuntimeException("Add messages to your config");
+        }
+        return true;
+    }
 
 }

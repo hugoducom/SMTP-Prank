@@ -5,11 +5,13 @@ import ch.heigvd.dai.mailrobot.model.mail.Message;
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.logging.Logger;
 
 public class SmtpClient implements ISmtpClient {
     private static final Logger LOG = Logger.getLogger(SmtpClient.class.getName());
-
+   private PrintWriter writer;
+   private BufferedReader reader;
     private final String smtpServerAddress;
     private final int smtpServerPort;
 
@@ -18,17 +20,9 @@ public class SmtpClient implements ISmtpClient {
         smtpServerPort = port;
     }
 
-    @Override
-    public void sendMessage(Message message) throws IOException {
-        LOG.info("Sending message via SMTP");
-        Socket socket = new Socket(smtpServerAddress, smtpServerPort);
-        PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+    private void readHeaderFromServer() throws IOException
+    {
         String line = reader.readLine();
-        LOG.info(line);
-        writer.printf("EHLO localhost\r\n");
-        line = reader.readLine();
-        LOG.info(line);
         if (!line.startsWith("250")) {
             throw new IOException("SMTP error: " + line);
         }
@@ -36,49 +30,76 @@ public class SmtpClient implements ISmtpClient {
             line = reader.readLine();
             LOG.info(line);
         }
+    }
 
-        writer.write("MAIL FROM:");
-        writer.write(message.getFrom());
-        writer.write("\r\n");
-        writer.flush();
-        line = reader.readLine();
+    private void readFromServer() throws IOException {
+        String line = reader.readLine();
         LOG.info(line);
+    }
 
+    private void writeToServer(String line) throws IOException {
+        writer.write(line + "\r\n");
+        writer.flush();
+    }
+
+    @Override
+    public void sendMessage(Message message) throws IOException {
+
+        LOG.info("Sending message via SMTP");
+        Socket socket = new Socket(smtpServerAddress, smtpServerPort);
+        writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
+        reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+        String line;
+
+        readFromServer();
+
+        // EHLO
+        writeToServer("EHLO localhost");
+
+        readHeaderFromServer();
+
+        // MAIL FROM
+        writeToServer("MAIL FROM:"+message.getFrom());
+
+        readFromServer();
+
+        // RCPT TO
         for (String to : message.getTo()) {
-            writer.write("RCPT TO:");
-            writer.write(to);
-            writer.write("\r\n");
-            writer.flush();
+            writeToServer("RCPT TO:" + to);
             line = reader.readLine();
             LOG.info(line);
         }
 
-        writer.write("DATA");
-        writer.write("\r\n");
-        writer.flush();
-        line = reader.readLine();
-        LOG.info(line);
-        writer.write("Content-Type: text/plain; charset=utf-8\r\n");
-        writer.write("From: " + message.getFrom() + "\r\n");
+        // START DATA
+        writeToServer("DATA");
+
+        readFromServer();
+
+        writeToServer("Content-Type: text/plain; charset=utf-8");
+        writeToServer("From: " + message.getFrom());
 
         writer.write("To: " + message.getTo()[0]);
         for (int i = 1; i < message.getTo().length; ++i) {
             writer.write(", " + message.getTo()[i]);
         }
         writer.write("\r\n");
+        writer.flush();
 
-        writer.flush();
-        //message.setBody("Subject: toto\r\n\r\nHello world.");
+        LOG.info("Subject: " + message.getBody());
+        writeToServer("Subject: =?utf8?B?" + Base64.getEncoder().encodeToString(message.getSubject().getBytes()) + "?=");
+
+        writer.write("\r\n");
+
         LOG.info(message.getBody());
-        writer.write(message.getBody());
-        writer.write("\r\n");
-        writer.write(".");
-        writer.write("\r\n");
-        writer.flush();
-        line = reader.readLine();
-        LOG.info(line);
-        writer.write("QUIT\r\n");
-        writer.flush();
+        writer.write(message.getBody() + "\r\n");
+        writeToServer(".");
+
+        // END DATA
+
+        readFromServer();
+
+        writeToServer("QUIT");
+
         writer.close();
         reader.close();
         socket.close();
