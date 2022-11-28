@@ -14,14 +14,13 @@ public class ConfigurationManager {
     private final List<Person> victims;
     private final List<String> messages;
     private int numberOfGroups;
-    private final List<Person> witnessesToCC;
     public static final int MIN_SIZE_PER_GROUP = 3;
 
     public ConfigurationManager() throws Exception {
-        this.victims = loadAddresses("./config/victims.utf8");
-        this.messages = loadMessages("./config/messages.utf8");
-        this.witnessesToCC = new ArrayList<>();
-        loadProperties("./config/config.properties");
+        //System.out.println(System.getProperty("user.dir"));
+        this.victims = loadAddresses("/home/alexis/Desktop/SMTP-Prank/MailRobot/config/victims.utf8");
+        this.messages = loadMessages("/home/alexis/Desktop/SMTP-Prank/MailRobot/config/messages.utf8");
+        loadProperties("/home/alexis/Desktop/SMTP-Prank/MailRobot/config/config.properties");
     }
 
     public List<Person> getVictims() {
@@ -44,24 +43,16 @@ public class ConfigurationManager {
         return numberOfGroups;
     }
 
-    public List<Person> getWitnessesToCC() {
-        return witnessesToCC;
-    }
-
     // https://docs.oracle.com/javase/7/docs/api/java/util/Properties.html
     private void loadProperties(String file) throws IOException {
         FileInputStream fs = new FileInputStream(file);
-        InputStreamReader isr = new InputStreamReader(fs);
+        InputStreamReader isr = new InputStreamReader(fs, StandardCharsets.UTF_8);
         BufferedReader reader = new BufferedReader(isr);
         Properties prop = new Properties();
         prop.load(reader);
         smtpServerAddress = prop.getProperty("smtpServerAddress");
         smtpServerPort = Integer.parseInt(prop.getProperty("smtpServerPort"));
         numberOfGroups = Integer.parseInt(prop.getProperty("numberOfGroups"));
-        String witnesses = prop.getProperty("witnessToCC");
-        for (String addr : witnesses.split(",")) {
-            witnessesToCC.add(new Person(addr));
-        }
     }
 
     private List<String> loadMessages(String file) throws IOException {

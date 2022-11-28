@@ -53,30 +53,12 @@ public class SmtpClient implements ISmtpClient {
             LOG.info(line);
         }
 
-        for (String cc : message.getCc()) {
-            writer.write("RCPT TO:");
-            writer.write(cc);
-            writer.write("\r\n");
-            writer.flush();
-            line = reader.readLine();
-            LOG.info(line);
-        }
-
-        for (String bcc : message.getBcc()) {
-            writer.write("RCPT TO:");
-            writer.write(bcc);
-            writer.write("\r\n");
-            writer.flush();
-            line = reader.readLine();
-            LOG.info(line);
-        }
-
         writer.write("DATA");
         writer.write("\r\n");
         writer.flush();
         line = reader.readLine();
         LOG.info(line);
-        writer.write("Content-Type: text/plain; charset=\"utf-8\"\r\n");
+        writer.write("Content-Type: text/plain; charset=utf-8\r\n");
         writer.write("From: " + message.getFrom() + "\r\n");
 
         writer.write("To: " + message.getTo()[0]);
