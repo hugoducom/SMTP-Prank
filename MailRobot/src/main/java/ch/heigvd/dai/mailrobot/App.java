@@ -1,13 +1,13 @@
 package ch.heigvd.dai.mailrobot;
 
-/**
- * Hello world!
- *
- */
-public class App 
+import ch.heigvd.dai.mailrobot.model.mail.Message;
+import ch.heigvd.dai.mailrobot.smtp.SmtpClient;
+
+public class App
 {
     public static void main( String[] args )
     {
         System.out.println( "Hello World!" );
+        SmtpClient client = new SmtpClient("localhost", 25000);
     }
 }

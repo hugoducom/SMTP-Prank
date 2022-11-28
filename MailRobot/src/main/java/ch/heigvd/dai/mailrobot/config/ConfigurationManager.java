@@ -15,6 +15,7 @@ public class ConfigurationManager {
     private final List<String> messages;
     private int numberOfGroups;
     private final List<Person> witnessesToCC;
+    public static final int MIN_SIZE_PER_GROUP = 3;
 
     public ConfigurationManager() throws Exception {
         this.victims = loadAddresses("./config/victims.utf8");

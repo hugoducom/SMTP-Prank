@@ -85,12 +85,6 @@ public class SmtpClient implements ISmtpClient {
         }
         writer.write("\r\n");
 
-        writer.write("Cc: " + message.getCc()[0]);
-        for (int i = 1; i < message.getCc().length; ++i) {
-            writer.write(", " + message.getCc()[i]);
-        }
-        writer.write("\r\n");
-
         writer.flush();
         //message.setBody("Subject: toto\r\n\r\nHello world.");
         LOG.info(message.getBody());
