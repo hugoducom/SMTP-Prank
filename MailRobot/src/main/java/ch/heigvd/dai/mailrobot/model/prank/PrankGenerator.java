@@ -3,7 +3,6 @@ package ch.heigvd.dai.mailrobot.model.prank;
 import ch.heigvd.dai.mailrobot.config.ConfigurationManager;
 import ch.heigvd.dai.mailrobot.model.mail.*;
 
-import java.io.ObjectInputFilter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +37,7 @@ public class PrankGenerator {
         for (Group g : groups) {
             if (g.getMembers().size() < ConfigurationManager.MIN_SIZE_PER_GROUP)
                 throw new RuntimeException("The group hasn't enough members to choose a sender!");
+
             // Mélange afin d'avoir un expéditeur aléatoire
             g.suffleMembers();
         }

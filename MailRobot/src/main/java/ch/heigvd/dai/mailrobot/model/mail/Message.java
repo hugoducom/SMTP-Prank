@@ -4,7 +4,7 @@ public class Message {
 
     private String from;
     private String[] to = new String[0];
-    private String subject;
+    private final String subject;
     private String body;
 
     public Message(String subject, String body) {
@@ -30,10 +30,6 @@ public class Message {
 
     public String getSubject() {
         return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
     }
 
     public String getBody() {

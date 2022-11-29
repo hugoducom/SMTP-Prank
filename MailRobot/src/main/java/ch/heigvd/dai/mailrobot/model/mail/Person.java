@@ -2,9 +2,9 @@ package ch.heigvd.dai.mailrobot.model.mail;
 
 public class Person {
 
-    private  String mail;
-    private String firstname;
-    private String name;
+    private final String mail;
+    private final String firstname;
+    private final String name;
 
     public Person(String mail) {
 

@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 public class App
 {
     private static final Logger LOG = Logger.getLogger(App.class.getName());
-
     public static void main( String[] args )
     {
         System.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s%6$s%n");
@@ -24,6 +23,8 @@ public class App
             final PrankGenerator prankGenerator = new PrankGenerator(cm);
             final List<Prank> pranks = prankGenerator.generatePranks();
             LOG.log(Level.INFO, "Sending mails pranks");
+
+            // Création des pranks et envoie
             for (Prank p : pranks) {
                 client.sendMessage(p.generateMailMessage());
             }

@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 public class Prank {
 
-    private Person victimSender;
+    private final Person victimSender;
     private final ArrayList<Person> victimRecipients = new ArrayList<>();
-    private Message message;
+    private final Message message;
 
     public Prank(Group group, Message m) {
         this.victimSender = group.getMembers().get(0);

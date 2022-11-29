@@ -3,9 +3,13 @@ package ch.heigvd.dai.mailrobot.model.mail;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Classe de vérification des adresses mails
+ */
 public class MailChecker {
 
-    private static final String EMAIL_PATTERN = "^([A-Za-z0-9]+)\\.([A-Za-z0-9]+)@([A-Za-z0-9]+)\\.([A-Za-z0-9]{2,6})$";
+    // Regex représentant notre adresse
+    private static final String EMAIL_PATTERN = "^([A-Za-z0-9]+)\\.([A-Za-z0-9]+)@([A-Za-z0-9]+)\\.([A-Za-z0-9]+)$";
 
     private static final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 

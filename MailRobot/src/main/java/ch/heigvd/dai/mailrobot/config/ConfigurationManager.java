@@ -11,12 +11,13 @@ import ch.heigvd.dai.mailrobot.model.mail.Message;
 import ch.heigvd.dai.mailrobot.model.mail.Person;
 
 public class ConfigurationManager {
+    public static final int MIN_SIZE_PER_GROUP = 3;
+    private static final String SEPARATOR = "---";
     private String smtpServerAddress;
     private int smtpServerPort;
     private final List<Person> victims;
     private final List<Message> messages;
     private int numberOfGroups;
-    public static final int MIN_SIZE_PER_GROUP = 3;
 
     public ConfigurationManager() throws Exception {
         this.victims = loadAddresses("./MailRobot/config/victims.utf8");
@@ -65,17 +66,24 @@ public class ConfigurationManager {
             InputStreamReader is = new InputStreamReader(fs, StandardCharsets.UTF_8);
             try (BufferedReader reader = new BufferedReader(is)) {
 
+                /*
+                 * Lecture du contenu du fichier messages ligne par ligne.
+                 * On commence par lire Subject qui est la première ligne d'un mail
+                 * Ensuite on saute la ligne vide qui sépare sujet et body
+                 * Finalement on peut lire le corps du message jusqu'à tomber sur le séparateur.
+                 */
                 while ((line = reader.readLine()) != null) {
                     if (line.startsWith("Subject:")) {
                         // 9 étant la case du string à laquelle commence le message
                         subject = line.substring(9);
                     } else if (line.equals("")) {
                         continue;
-                    } else if(!line.equals("---")) {
+                    } else if(!line.equals(SEPARATOR)) {
                         body.append(line).append("\n");
                     }
                     else {
                         res.add(new Message(subject, body.toString()));
+                        // Clear du StringBuilder
                         body.setLength(0);
                     }
                 }
@@ -92,31 +100,32 @@ public class ConfigurationManager {
             try (BufferedReader reader = new BufferedReader(is)) {
                 String address = reader.readLine();
                 while (address != null) {
-                    if(addressCheck(address)) {
-                        res.add(new Person(address));
-                        address = reader.readLine();
-                    }
+                    addressCheck(address);
+                    res.add(new Person(address));
+                    address = reader.readLine();
+
                 }
             }
         }
         return res;
     }
 
-    private boolean addressCheck(String address) {
+    private void addressCheck(String address) {
 
+        /*
+         * Utilisation du mailChecker pour vérifier que les adresses correspondent
+         * bien aux adresses mails que notre programme prend en paramètres
+         */
         MailChecker mc = new MailChecker();
         if (!mc.checkMail(address)) {
             throw new RuntimeException("Invalid email");
         }
-
-        return true;
     }
 
-    private boolean checkNumberOfMessages(List<Message> m) {
+    private void checkNumberOfMessages(List<Message> m) {
         if(m.size() == 0) {
             throw new RuntimeException("Add messages to your config");
         }
-        return true;
     }
 
 }
