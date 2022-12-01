@@ -5,6 +5,9 @@ import java.util.regex.Pattern;
 
 /**
  * Classe de vérification des adresses mails
+ *
+ * @author Hugo Ducommun
+ * @author Alexis Martins
  */
 public class MailChecker {
 
@@ -13,6 +16,11 @@ public class MailChecker {
 
     private static final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 
+    /**
+     * Vérifie la validité d'un string de mail
+     * @param mail
+     * @return Validité du mail (boolean)
+     */
     public boolean checkMail(String mail) {
         Matcher matcher = pattern.matcher(mail);
         return matcher.matches();

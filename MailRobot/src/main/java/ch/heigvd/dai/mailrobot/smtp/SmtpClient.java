@@ -8,18 +8,33 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.logging.Logger;
 
+/**
+ * Client SMTP
+ *
+ * @author Hugo Ducommun
+ * @author Alexis Martins
+ */
 public class SmtpClient implements ISmtpClient {
     private static final Logger LOG = Logger.getLogger(SmtpClient.class.getName());
-   private PrintWriter writer;
-   private BufferedReader reader;
+    private PrintWriter writer;
+    private BufferedReader reader;
     private final String smtpServerAddress;
     private final int smtpServerPort;
 
+    /**
+     * Constructeur du client SMTP
+     * @param smtpServerAddress
+     * @param port
+     */
     public SmtpClient(String smtpServerAddress, int port) {
         this.smtpServerAddress = smtpServerAddress;
         smtpServerPort = port;
     }
 
+    /**
+     * Lit les headers reçus par le serveur et les affiche en console
+     * @throws IOException
+     */
     private void readHeaderFromServer() throws IOException
     {
         String line = reader.readLine();
@@ -32,16 +47,32 @@ public class SmtpClient implements ISmtpClient {
         }
     }
 
+    /**
+     * Lit une ligne reçue par le serveur et l'affiche en console.
+     * @throws IOException
+     */
     private void readFromServer() throws IOException {
         String line = reader.readLine();
         LOG.info(line);
     }
 
+    /**
+     * Ecrit une ligne au serveur
+     * @param line
+     * @throws IOException
+     */
     private void writeToServer(String line) throws IOException {
         writer.write(line + "\r\n");
         writer.flush();
     }
 
+    /**
+     * Envoie un mail de type Message au serveur.
+     * Le serveur utilise les attributs 'To' et 'From' du message pour savoir à qui adresser le mail.
+     * Le mail est encodé en UTF-8.
+     * @param message
+     * @throws IOException
+     */
     @Override
     public void sendMessage(Message message) throws IOException {
 

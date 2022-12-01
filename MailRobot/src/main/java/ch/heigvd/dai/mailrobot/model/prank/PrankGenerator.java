@@ -8,14 +8,29 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Classe qui génère les Prank de chaque groupe de destinataires
+ *
+ * @author Hugo Ducommun
+ * @author Alexis Martins
+ */
 public class PrankGenerator {
     private final ConfigurationManager cm;
     private static final Random random = new Random();
 
+    /**
+     * Constructeur
+     * @param cm
+     */
     public PrankGenerator(ConfigurationManager cm) {
         this.cm = cm;
     }
 
+    /**
+     * Crée les groupes de prank en piochant dans les victimes de manière aléatoire.
+     * Le nombre de groupes est récupéré via le ConfigurationManager du fichier config.properties
+     * @return
+     */
     private List<Group> createGroups() {
         List<Group> groups = new ArrayList<>();
         List<Person> remainingVictims = new ArrayList<>(cm.getVictims());
@@ -45,6 +60,10 @@ public class PrankGenerator {
         return groups;
     }
 
+    /**
+     * Génère les Prank de chaque groupe et les retourne sous forme de liste
+     * @return Liste des Prank générés
+     */
     public List<Prank> generatePranks() {
         List<Prank> pranks = new ArrayList<>();
         List<Group> groups = createGroups();
