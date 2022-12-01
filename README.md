@@ -67,10 +67,16 @@ Ci-dessous la structure d'un message, on peut les copier les uns en dessous des 
     <espace vide>
     <Le corps de votre message qui peut etre sur plusieurs lignes>
     ---
+La dernière étape de la configuration est de compiler le programme. Il faut donc se rendre dans le dossier [MailRobot](./MailRobot/) et exécuter la commande maven ci-dessous.
+
+    mvn clean package
 
 ## Utilisation
 
-Maintenant que toutes les configurations ont été faites, il ne vous reste plus qu'à lancer le programme.
+Maintenant que toutes les configurations ont été faites, il ne vous reste plus qu'à lancer le programme. Pour réaliser cette étape, il faut se rendre dans le dossier qui contient l'exécutable. C'est-à-dire le dossier [target](./MailRobot/target) et réaliser la commmande ci-dessous.
+
+    java -jar MailRobot-1.0-SNAPSHOT.jar
+
 Si vous utilisez MockMock, vous pouvez retrouver le nombre de mails qui correspond au nombre de groupes dans l'interface web.
 Si vous passez par un vrai serveur SMTP, on espère que vos victimes tomberont dans le panneau.
 

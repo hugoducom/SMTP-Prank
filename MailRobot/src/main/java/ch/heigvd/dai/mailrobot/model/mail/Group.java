@@ -14,7 +14,7 @@ public class Group {
 
     /**
      * Ajoute un membre au groupe
-     * @param person
+     * @param person Personne à ajouter au groupe
      */
     public void addMember(Person person) {
         members.add(person);
@@ -22,7 +22,7 @@ public class Group {
 
     /**
      * Getter de la liste des membres du groupe
-     * @return
+     * @return Liste des membres d'un groupe
      */
     public ArrayList<Person> getMembers() {
         return new ArrayList<>(members);

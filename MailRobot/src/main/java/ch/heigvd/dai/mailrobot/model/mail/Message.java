@@ -15,8 +15,8 @@ public class Message {
 
     /**
      * Constructeur
-     * @param subject
-     * @param body
+     * @param subject Sujet d'un message
+     * @param body Corps du message
      */
     public Message(String subject, String body) {
         this.subject = subject;
@@ -25,7 +25,7 @@ public class Message {
 
     /**
      * Getter de l'adresse 'From'
-     * @return
+     * @return Adresse de l'expéditeur
      */
     public String getFrom() {
         return from;
@@ -33,7 +33,7 @@ public class Message {
 
     /**
      * Setter de l'adresse 'From'
-     * @param from
+     * @param from Adresse de l'expéditeur
      */
     public void setFrom(String from) {
         this.from = from;
@@ -41,7 +41,7 @@ public class Message {
 
     /**
      * Getter de l'adresse 'To'
-     * @return
+     * @return Adresses des destinataires
      */
     public String[] getTo() {
         return to;
@@ -49,7 +49,7 @@ public class Message {
 
     /**
      * Setter de l'adresse 'To'
-     * @param to
+     * @param to Adresses des destinataires
      */
     public void setTo(String[] to) {
         this.to = to;
@@ -57,7 +57,7 @@ public class Message {
 
     /**
      * Getter du sujet
-     * @return
+     * @return Sujet du mail
      */
     public String getSubject() {
         return subject;
@@ -65,7 +65,7 @@ public class Message {
 
     /**
      * Getter du texte body
-     * @return
+     * @return Corps du mail
      */
     public String getBody() {
         return body;
@@ -73,7 +73,7 @@ public class Message {
 
     /**
      * Setter du texte body
-     * @param body
+     * @param body Corps du mail
      */
     public void setBody(String body) {
         this.body = body;

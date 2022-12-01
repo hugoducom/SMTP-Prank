@@ -18,7 +18,7 @@ public class MailChecker {
 
     /**
      * Vérifie la validité d'un string de mail
-     * @param mail
+     * @param mail Adresse mail que l'on souhaite vérifier
      * @return Validité du mail (boolean)
      */
     public boolean checkMail(String mail) {

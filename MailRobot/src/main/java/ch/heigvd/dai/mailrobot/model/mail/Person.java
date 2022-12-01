@@ -29,7 +29,7 @@ public class Person {
 
     /**
      * Getter du prénom
-     * @return
+     * @return Prénom de la victime
      */
     public String getFirstname() {
         return firstname;
@@ -37,15 +37,15 @@ public class Person {
 
     /**
      * Getter du nom
-     * @return
+     * @return Nom de la victime
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Getter du mail
-     * @return
+     * Getter de l'adresse mail
+     * @return Adresse mail
      */
     public String getAddress() {
         return mail;

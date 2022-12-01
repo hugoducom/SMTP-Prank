@@ -1,7 +1,6 @@
 package ch.heigvd.dai.mailrobot.model.prank;
 
 import ch.heigvd.dai.mailrobot.model.mail.*;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -14,27 +13,27 @@ import java.util.stream.Collectors;
 public class Prank {
     // Expéditeur du mail (une victime)
     private final Person victimSender;
-    // Destinataires du mail de spam
+    // Destinataires du mail de prank
     private final Group victimRecipients;
     private final Message message;
 
     /**
      * Constructeur
-     * @param group
-     * @param m
+     * @param group Groupe auquel on envoie le prank
+     * @param message Mail à envoyer
      */
-    public Prank(Group group, Message m) {
+    public Prank(Group group, Message message) {
         victimRecipients = new Group();
         this.victimSender = group.getMembers().get(0);
         for(int i = 1; i < group.getMembers().size(); ++i){
             victimRecipients.addMember(group.getMembers().get(i));
         }
-        this.message = m;
+        this.message = message;
     }
 
     /**
      * Popule les attributs 'to', 'body' et 'from' du message envoyé.
-     * @return
+     * @return Message final à envoyer
      */
     public Message generateMailMessage() {
 

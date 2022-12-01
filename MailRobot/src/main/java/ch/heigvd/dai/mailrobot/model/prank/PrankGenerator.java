@@ -20,7 +20,7 @@ public class PrankGenerator {
 
     /**
      * Constructeur
-     * @param cm
+     * @param cm ConfigurationManager lié au prankGenerator
      */
     public PrankGenerator(ConfigurationManager cm) {
         this.cm = cm;
@@ -29,7 +29,7 @@ public class PrankGenerator {
     /**
      * Crée les groupes de prank en piochant dans les victimes de manière aléatoire.
      * Le nombre de groupes est récupéré via le ConfigurationManager du fichier config.properties
-     * @return
+     * @return Liste des groupes de victimes
      */
     private List<Group> createGroups() {
         List<Group> groups = new ArrayList<>();

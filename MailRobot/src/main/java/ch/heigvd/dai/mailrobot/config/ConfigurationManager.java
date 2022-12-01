@@ -30,17 +30,17 @@ public class ConfigurationManager {
 
     /**
      * Constructeur par défaut
-     * @throws Exception
+     * @throws Exception Si le fichier de config n'existe pas
      */
     public ConfigurationManager() throws Exception {
-        this.victims = loadAddresses("./MailRobot/config/victims.utf8");
-        this.messages = loadMessages("./MailRobot/config/messages.utf8");
-        loadProperties("./MailRobot/config/config.properties");
+        this.victims = loadAddresses("../config/victims.utf8");
+        this.messages = loadMessages("../config/messages.utf8");
+        loadProperties("../config/config.properties");
     }
 
     /**
      * Getter des victimes
-     * @return
+     * @return Liste des victimes
      */
     public List<Person> getVictims() {
         return victims;
@@ -48,7 +48,7 @@ public class ConfigurationManager {
 
     /**
      * Getter des messages
-     * @return
+     * @return Liste des messages à envoyer
      */
     public List<Message> getMessages() {
         return messages;
@@ -56,7 +56,7 @@ public class ConfigurationManager {
 
     /**
      * Getter de l'adresse du serveur SMTP
-     * @return
+     * @return Adresse du serveur SMTP
      */
     public String getSmtpServerAddress() {
         return smtpServerAddress;
@@ -64,15 +64,15 @@ public class ConfigurationManager {
 
     /**
      * Getter du port du serveur SMTP
-     * @return
+     * @return Port du serveur SMTP
      */
     public int getSmtpServerPort() {
         return smtpServerPort;
     }
 
     /**
-     * Getter du nombre de groupe
-     * @return
+     * Getter du nombre de groupes
+     * @return Nombre de groupes
      */
     public int getNumberOfGroups() {
         return numberOfGroups;
@@ -81,8 +81,8 @@ public class ConfigurationManager {
     /**
      * Charge les propriétés stockées dans le fichier config.properties
      * (smtpServerAddress, smtpServerPort, numberOfGroups)
-     * @param file
-     * @throws IOException
+     * @param file Fichier dans lequel se trouve les propriétés
+     * @throws IOException Erreur lors de la lecture du fichier
      */
     // https://docs.oracle.com/javase/7/docs/api/java/util/Properties.html
     private void loadProperties(String file) throws IOException {
@@ -98,9 +98,9 @@ public class ConfigurationManager {
 
     /**
      * Charge les messages depuis le fichier messages.utf8
-     * @param file
-     * @return
-     * @throws IOException
+     * @param file Fichier dans lequel se trouve les messaages
+     * @return Liste des messages
+     * @throws IOException Erreur lors de la lecture du fichier
      */
     private List<Message> loadMessages(String file) throws IOException {
         List<Message> res = new ArrayList<>();
@@ -141,9 +141,9 @@ public class ConfigurationManager {
 
     /**
      * Charge les adresses mail des victimes depuis victims.utf8
-     * @param file
-     * @return
-     * @throws IOException
+     * @param file Fichier dans lequel se trouve les adresses mail des victimes
+     * @return Liste des victimes
+     * @throws IOException Erreur lors de la lecture du fichier
      */
     private List<Person> loadAddresses(String file) throws IOException {
         List<Person> res = new ArrayList<>();
@@ -164,7 +164,7 @@ public class ConfigurationManager {
 
     /**
      * Vérifie la validité des adresses mails
-     * @param address
+     * @param address Adresse à vérifier
      */
     private void addressCheck(String address) {
 
@@ -180,10 +180,10 @@ public class ConfigurationManager {
 
     /**
      * Vérifie que des messages soient chargés
-     * @param m
+     * @param messages Liste des messages dont on vérifie la taille
      */
-    private void checkNumberOfMessages(List<Message> m) {
-        if(m.size() == 0) {
+    private void checkNumberOfMessages(List<Message> messages) {
+        if(messages.size() == 0) {
             throw new RuntimeException("Add messages to your config");
         }
     }

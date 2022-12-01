@@ -23,8 +23,8 @@ public class SmtpClient implements ISmtpClient {
 
     /**
      * Constructeur du client SMTP
-     * @param smtpServerAddress
-     * @param port
+     * @param smtpServerAddress Adresse du serveur SMTP à contacter
+     * @param port Port du serveur SMTP
      */
     public SmtpClient(String smtpServerAddress, int port) {
         this.smtpServerAddress = smtpServerAddress;
@@ -33,7 +33,7 @@ public class SmtpClient implements ISmtpClient {
 
     /**
      * Lit les headers reçus par le serveur et les affiche en console
-     * @throws IOException
+     * @throws IOException Si une erreur d'entrée/sortie survient
      */
     private void readHeaderFromServer() throws IOException
     {
@@ -49,7 +49,7 @@ public class SmtpClient implements ISmtpClient {
 
     /**
      * Lit une ligne reçue par le serveur et l'affiche en console.
-     * @throws IOException
+     * @throws IOException Si la ligne reçue ne commence pas par 250
      */
     private void readFromServer() throws IOException {
         String line = reader.readLine();
@@ -58,8 +58,8 @@ public class SmtpClient implements ISmtpClient {
 
     /**
      * Ecrit une ligne au serveur
-     * @param line
-     * @throws IOException
+     * @param line Ligne à écrire au serveur
+     * @throws IOException Si une erreur d'entrée/sortie survient
      */
     private void writeToServer(String line) throws IOException {
         writer.write(line + "\r\n");
@@ -70,8 +70,8 @@ public class SmtpClient implements ISmtpClient {
      * Envoie un mail de type Message au serveur.
      * Le serveur utilise les attributs 'To' et 'From' du message pour savoir à qui adresser le mail.
      * Le mail est encodé en UTF-8.
-     * @param message
-     * @throws IOException
+     * @param message Message à envoyer
+     * @throws IOException Si une erreur survient lors de l'envoi du mail
      */
     @Override
     public void sendMessage(Message message) throws IOException {
