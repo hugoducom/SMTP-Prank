@@ -117,7 +117,7 @@ public class SmtpClient implements ISmtpClient {
         writer.flush();
 
         LOG.info("Subject: " + message.getBody());
-        writeToServer("Subject: =?utf8?B?" + Base64.getEncoder().encodeToString(message.getSubject().getBytes()) + "?=");
+        writeToServer("Subject: =?utf8?B?" + Base64.getEncoder().encodeToString(message.getSubject().getBytes(StandardCharsets.UTF_8)) + "?=");
 
         writer.write("\r\n");
 

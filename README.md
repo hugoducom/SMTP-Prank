@@ -75,7 +75,7 @@ La dernière étape de la configuration est de compiler le programme. Il faut do
 
 Maintenant que toutes les configurations ont été faites, il ne vous reste plus qu'à lancer le programme. Pour réaliser cette étape, il faut se rendre dans le dossier qui contient l'exécutable. C'est-à-dire le dossier [target](./MailRobot/target) et réaliser la commmande ci-dessous.
 
-    java -jar MailRobot-1.0-SNAPSHOT.jar
+    java -jar mailrobot-1.0-SNAPSHOT.jar
 
 Si vous utilisez MockMock, vous pouvez retrouver le nombre de mails qui correspond au nombre de groupes dans l'interface web.
 Si vous passez par un vrai serveur SMTP, on espère que vos victimes tomberont dans le panneau.

@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM openjdk:11-jre
 MAINTAINER Alexis Martins <alexis.martinslemospinto@heig-vd.ch>
   
 #
