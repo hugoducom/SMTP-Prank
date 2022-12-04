@@ -37,8 +37,6 @@ public class Prank {
      */
     public Message generateMailMessage() {
 
-        message.setBody(message.getBody() + "\r\n" + victimSender.getFirstname() + " " + victimSender.getName());
-
         String[] to = victimRecipients.getMembers().stream().map(p -> p.getAddress()).collect(Collectors.toList()).toArray(new String[]{});
         message.setTo(to);
 

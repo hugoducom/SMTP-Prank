@@ -122,7 +122,8 @@ public class SmtpClient implements ISmtpClient {
         writer.write("\r\n");
 
         LOG.info(message.getBody());
-        writer.write(message.getBody() + "\r\n");
+
+        writeToServer(message.getBody());
         writeToServer(".");
 
         // END DATA
