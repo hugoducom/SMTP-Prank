@@ -32,7 +32,7 @@ public class Prank {
     }
 
     /**
-     * Popule les attributs 'to', 'body' et 'from' du message envoyé.
+     * Popule les attributs 'to' et 'from' du message envoyé.
      * @return Message final à envoyer
      */
     public Message generateMailMessage() {

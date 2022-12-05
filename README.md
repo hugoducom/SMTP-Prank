@@ -55,7 +55,7 @@ Un groupe est au minimum composé de trois personnes (un expéditeur et deux des
 
 ### Liste de victimes
 On place les adresses mails des victimes dans le fichier [victims.utf8](./MailRobot/config/victims.utf8).
-Nos adresses ont un format assez particulier "prenom.nom@domain.tld", si elles n'ont pas cette forme alors le programme ne fonctionne pas.
+Toutes les adresses mails doivent posséder au minimum un '@' et un '.' pour le nom de domaine.
 On rappelle qu'il doit y avoir trois fois plus de victimes que de groupes, sinon le programme ne s'exécute pas.
 
 ### Liste de messages

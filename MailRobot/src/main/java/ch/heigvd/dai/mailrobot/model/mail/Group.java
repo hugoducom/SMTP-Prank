@@ -31,7 +31,7 @@ public class Group {
     /**
      * Mélange les membres dans un ordre aléatoire
      */
-    public void suffleMembers() {
+    public void shuffleMembers() {
         Collections.shuffle(members);
     }
 }

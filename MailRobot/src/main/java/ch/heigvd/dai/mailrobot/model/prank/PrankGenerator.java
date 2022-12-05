@@ -54,7 +54,7 @@ public class PrankGenerator {
                 throw new RuntimeException("The group hasn't enough members to choose a sender!");
 
             // Mélange afin d'avoir un expéditeur aléatoire
-            g.suffleMembers();
+            g.shuffleMembers();
         }
 
         return groups;

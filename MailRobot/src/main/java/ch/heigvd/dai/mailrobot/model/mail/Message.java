@@ -11,7 +11,7 @@ public class Message {
     private String from;
     private String[] to = new String[0];
     private final String subject;
-    private String body;
+    private final String body;
 
     /**
      * Constructeur
@@ -69,13 +69,5 @@ public class Message {
      */
     public String getBody() {
         return body;
-    }
-
-    /**
-     * Setter du texte body
-     * @param body Corps du mail
-     */
-    public void setBody(String body) {
-        this.body = body;
     }
 }
